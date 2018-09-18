@@ -5,23 +5,33 @@ html {
 body {
 width: 75%;
    margin: 0 auto; 
-
    display: flex;
    min-height: 100vh;
    flex-direction: column;
    background-color: white;
 }
+img {
+	align-content: center;
+}
+
+.form-group {
+    background-color: orange;
+}
 
 h1 {
     text-align: center;
-    font-family: 'Fontdiner Swanky', cursive;
+    font-family: 'Londrina Sketch', cursive;
     font-size: 65px;
     margin: 50px;
 }
 
 h2 {
      text-align: center;
-    font-family: 'Fontdiner Swanky', cursive;
-    font-size: 40px;
+    font-family: 'Londrina Sketch', cursive;
+    font-size: 20px;
     margin: 50px;
+}
+
+.btn-primary {
+    border-radius: 15px;
 }
