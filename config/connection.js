@@ -7,7 +7,7 @@ if (process.env.JAWSDB_URL) {
     host: 'localhost',
     user: 'root',
     password: 'hacktheplanet',
-    database: 'burgers_db'
+    database: 'clghtyf7d6d9tuwq'
   });
 };
 connection.connect();

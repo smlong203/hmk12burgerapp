@@ -1,59 +1,79 @@
+//Source: This is a combination of code from online sources, class activities & code completed by myself and colleagues from/during class
 var connection = require("../config/connection.js");
-
-//Source: This is a combination of code from online sources, class activities & code completed by myself and colleagues from/during class 
-const printQuestionMarks = (num) => {
-    let arr = [];
-    for (let i = 0; i < num; i++) {
-        arr.push('?');
+function printQuestionMarks(num) {
+    var arr = [];
+    for (var i = 0; i < num; i++) {
+        arr.push("?");
     }
     return arr.toString();
-};
-
-const objToSql = (object) => {
-    let arr = [];
-    for (let key in object) {
-        let value = object[key];
-        if (Object.hasOwnProperty.call(object, key)) {
-            if (typeof value === 'string' && value.indexOf(' ') >= 0) {
-                value = `'${value}'`;
+}
+function objToSql(ob) {
+    var arr = [];
+    for (var key in ob) {
+        var value = ob[key];
+        if (Object.hasOwnProperty.call(ob, key)) {
+            if (typeof value === "string" && value.indexOf(" ") >= 0) {
+                value = "'" + value + "'";
             }
-            arr.push(`${key}=${value}`);
+            arr.push(key + "=" + value);
         }
     }
     return arr.toString();
-};
+}
 
-const orm = {
-    selectAll: (tableName, cb) => {
-        let queryString = `SELECT * FROM ${tableName};`;
-        connection.query(queryString, (err, res) => {
-            if (err) throw err;
-            cb(res);
-        });
-    },
-    insertOne: (tableName, columnNames, columnValues, cb) => {
-        let columnNameSting = columnNames.toString();
-        let questionMarks = printQuestionMarks(columnValues.length);
-        let queryString = `INSERT INTO ${tableName} (${columnNameSting}) VALUES (${questionMarks});`;
-        console.log(queryString);
-        connection.query(queryString, columnValues, (err, result) => {
-            if (err) throw err;
+var orm = {
+    selectAll: function (table, cb) {
+        var queryString = "SELECT * FROM " + table + ";";
+        connection.query(queryString, function (err, result) {
+            if (err) {
+                throw err;
+            }
             cb(result);
         });
     },
-    updateOne: (tableName, objectColumnValues, condition, cb) => {
-        let objectToSQL = objToSql(objectColumnValues);
-        let queryString = `UPDATE ${tableName} SET ${objectToSQL} WHERE ${condition};`;
+    insertOne: function (table, cols, vals, cb) {
+        var queryString = "INSERT INTO " + table;
+        queryString += " (";
+        queryString += cols.toString();
+        queryString += ") ";
+        queryString += "VALUES (";
+        queryString += printQuestionMarks(vals.length);
+        queryString += ") ";
+
         console.log(queryString);
-        connection.query(queryString, (err, result) => {
-            if (err) throw err;
+
+        connection.query(queryString, vals, function (err, result) {
+            if (err) {
+                throw err
+            }
             cb(result);
         });
     },
-    delete: (tableName, condition, cb) => {
-        let queryString = `DELETE FROM ${tableName} WHERE ${condition};`;
-        connection.query(queryString, (err, result) => {
-            if (err) throw err;
+    updateOne: function (table, objColVals, condition, cb) {
+        var queryString = "UPDATE " + table;
+        queryString += " SET ";
+        queryString += objToSql(objColVals);
+        queryString += " WHERE ";
+        queryString += condition;
+
+        console.log(queryString);
+
+        connection.query(queryString, function (err, result) {
+            if (err) {
+                throw err
+            }
+            cb(result);
+        });
+    },
+    deleteOne: function (table, condition, cb) {
+        var queryString = "DELETE FROM " + table;
+        queryString += " WHERE ";
+        queryString += condition;
+        console.log(queryString);
+        connection.query(queryString, function (err, result) {
+            if (err) {
+                throw err
+            }
             cb(result);
         });
     }

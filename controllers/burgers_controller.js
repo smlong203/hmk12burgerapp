@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const burger = require('../models/burger');
 
+//Source: This is a combination of code from online sources, class activities & code completed by myself and colleagues from/during class
 router.get('/', (req, res) => {
     burger.selectAll((data) => {
         let handleBarsObject = { burgers: data };
